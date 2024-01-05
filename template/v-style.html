@@ -6,36 +6,44 @@
 <div id="app">
   <h2>切換 Class</h2>
   <h3>物件寫法</h3>
-  <div class="box"></div>
+  <!-- key對應class名稱，值則是判斷式，物件不能有-符號因此需轉換成字串-->
+  <div class="box" :class="{rotate:isTransform,'bg-danger':boxColor}"></div>
   <hr>
   <button class="btn btn-outline-primary" v-on:click="change('isTransform')">選轉物件</button>
   <button class="btn btn-outline-primary ms-1" v-on:click="change('boxColor')">切換色彩</button>
 
   <hr class="mt-4">
   <h3>物件寫法 2</h5>
-  <div class="box"></div>
+  <div class="box" :class="objectClass"></div>
 
   <hr>
   <h4>陣列寫法</h4>
-  <button class="btn">請操作本元件</button>
+  <button class="btn" :class="arrayClass">請操作本元件</button>
   <button type="button"
     class="btn btn-outline-primary"
-    v-on:click="addClass(['btn-primary', 'active'])">為陣列加入 Class</button>
+    v-on:click="addClass(['btn-primary', 'disabled'])">為陣列加入 Class</button>
 
   <hr>
   <h2>行內樣式</h2>
   <h4>綁定行內樣式</h4>
-  <div class="box"></div>
-  <div class="box"></div>
-  <div class="box"></div>
+  <!-- key對應style名稱，值則是style的值 -->
+  <div class="box" :style="{backgroundColor: 'red'}"></div>
+  <div class="box" :style="styleObject"></div>
+  <div class="box" :style="[styleObject,styleObject2]"></div>
 </div>
 
 <script>
 const App = {
   data() {
     return {
-      isTransform: true,
+      isTransform: false,
       boxColor: false,
+
+      //物件寫法2
+      objectClass:{
+        rotate: true,
+        'bg-danger': true,
+      },
 
       // Array 操作
       arrayClass: [''],

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>呈現多筆資料</title>
+    <title>v-model 與表單</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="images/favicon.ico" rel="shortcut icon" />
     <meta charset="UTF-8" />
@@ -14,81 +14,155 @@
         <main class="col post">
           <!-- 章節標題 -->
           <div class="mb-4">
-            <h1 class="mt-0 text-muted">呈現多筆資料</h1>
-            <small>檔名：<code>v-for.html</code></small>
+            <h1 class="mt-0 text-muted">v-model 與表單</h1>
+            <small>檔名：<code>form.html</code></small>
           </div>
           <!-- 🔥🔥練習開始🔥🔥 -->
 
           <div id="app">
-            <h3>呈現多筆資料於畫面上 v-for</h3>
-            <p>菜單</p>
-            <ul>
-              <li v-for="(item,key) in products">
-                <!-- key為索引值 -->
-                {{key +1 }}-{{item.name}} / {{item.price}}
-              </li>
-            </ul>
-
-            <h3>物件回圈</h3>
-            <ul>
-              <li v-for="(item,key) in productsObj">
-                <!-- key為物件名稱 -->
-                {{key}}-{{item.name}} / {{item.price}}
-              </li>
-            </ul>
-
-            <h3>純數值回圈</h3>
-            <ul>
-              <li v-for="num in 5">{{ num }}</li>
-            </ul>
-
-            <h3>v-for 與 key</h3>
-            <p>菜單</p>
-            <ul>
-              <li v-for="(item, key) in products" :key="item.name">
-                {{ key }} - {{ item.name}} / {{ item.price }} 元
-                <input type="text" />
-              </li>
-            </ul>
-            <p>
-              說明：有相同父元素的子元素必須有獨特的 key。重複的 key
-              會造成渲染錯誤。
-            </p>
-            <button type="button" v-on:click="reverseArray">
-              反轉資料內容
-            </button>
+            <h3>input</h3>
+            <input type="text" class="form-control" v-model="name" />
+            {{ name }}
 
             <hr />
-            <h3>進階技巧：在 template 標籤使用 v-for</h3>
-            <table class="table">
-              <tbody>
-                <template v-for="(item, key) in products" :key="item.name">
-                  <tr>
-                    <th rowspan="2">{{key+1}}</th>
-                    <td colspan="2">{{item.name}}</td>
-                  </tr>
-                  <tr>
-                    <td>{{ item.price }}</td>
-                    <td>{{ item.vegan ? "可素食":"不可素食" }}</td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
-            <p>
-              <a
-                href="https://vue3js.cn/docs/zh/guide/list.html#%E5%9C%A8-template-%E4%B8%AD%E4%BD%BF%E7%94%A8-v-for"
-                >參考介紹</a
-              >
-            </p>
+            <h3>textarea</h3>
+            <textarea
+              cols="30"
+              rows="3"
+              class="form-control"
+              v-model="text"
+            ></textarea>
+            {{ text }}
 
-            <h3>補充說明：v-for 與元件</h3>
-            <ul>
-              <list-item
-                :item="item"
-                v-for="(item, key) in products"
-                :key="item.name + 2"
-              ></list-item>
-            </ul>
+            <hr />
+            <h3>checkbox 單選框</h3>
+            <p>小明，你是吃飽沒？</p>
+            <p>{{ checkAnswer ? '吃飽了' : '還沒'}}</p>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="check1"
+                v-model="checkAnswer"
+              />
+              <label class="form-check-label" for="check1">小明回覆</label>
+            </div>
+
+            <hr />
+            <h3>checkbox 單選延伸</h3>
+            <p>小明，你是吃飽沒？</p>
+            <p>{{ checkAnswer2 }}</p>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="check2"
+                v-model="checkAnswer2"
+                true-value="吃飽了"
+                false-value="還沒"
+              />
+              <label class="form-check-label" for="check2">小明回覆</label>
+            </div>
+
+            <hr />
+            <h3>checkbox 複選框</h3>
+            <p>你還要吃什麼？</p>
+            <p>{{ checkAnswer3.join(' ') }}</p>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="check3"
+                value="蛋餅"
+                v-model="checkAnswer3"
+              />
+              <label class="form-check-label" for="check3">蛋餅</label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="check4"
+                value="蘿蔔糕"
+                v-model="checkAnswer3"
+              />
+              <label class="form-check-label" for="check4">蘿蔔糕</label>
+            </div>
+            <div class="form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="check5"
+                value="豆漿"
+                v-model="checkAnswer3"
+              />
+              <label class="form-check-label" for="check5">豆漿</label>
+            </div>
+
+            <hr />
+            <h3>radio 單選框</h3>
+            <p>你還要吃什麼？</p>
+            <p>{{ radioAnswer }}</p>
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                id="radio1"
+                value="蛋餅"
+                v-model="radioAnswer"
+              />
+              <label class="form-check-label" for="radio1">蛋餅</label>
+            </div>
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                id="radio2"
+                value="蘿蔔糕"
+                v-model="radioAnswer"
+              />
+              <label class="form-check-label" for="radio2">蘿蔔糕</label>
+            </div>
+            <div class="form-check">
+              <input
+                type="radio"
+                class="form-check-input"
+                id="radio3"
+                value="豆漿"
+                v-model="radioAnswer"
+              />
+              <label class="form-check-label" for="radio3">豆漿</label>
+            </div>
+
+            <hr />
+            <h3>select 單選</h3>
+            <p>你還要吃什麼？</p>
+            <p>{{ selectAnswer }}</p>
+            <select class="form-select" v-model="selectAnswer">
+              <option value="" disabled>說吧，你要吃什麼？</option>
+              <option
+                :value="item.name"
+                v-for="item in products"
+                :key="item.name"
+              >
+                {{item.name}} / {{item.price}}
+              </option>
+            </select>
+
+            <hr />
+            <h3>select 多選</h3>
+            <p>你還要吃什麼？</p>
+            <p>{{ selectAnswer2 }}</p>
+            <select class="form-select" multiple v-model="selectAnswer2">
+              <option value="" disabled>說吧，你要吃什麼？</option>
+              <option
+                :value="item.name"
+                v-for="item in products"
+                :key="item.name"
+              >
+                {{item.name}} / {{item.price}} 元
+              </option>
+            </select>
           </div>
 
           <script>
@@ -96,6 +170,13 @@
               data() {
                 return {
                   name: "小明",
+                  text: "一段文字敘述",
+                  checkAnswer: false,
+                  checkAnswer2: "",
+                  checkAnswer3: [],
+                  radioAnswer: "",
+                  selectAnswer: "",
+                  selectAnswer2: [],
                   products: [
                     {
                       name: "蛋餅",
@@ -151,11 +232,9 @@
 
             Vue.createApp(App)
               .component("list-item", {
-                template: `
-      <li>
-        {{ item.name}} / {{ item.price }} 元
-      </li>
-    `,
+                template: `<li>
+                {{ item.name}} / {{ item.price }} 元
+                </li>`,
                 props: ["item"],
               })
               .mount("#app");
@@ -175,7 +254,7 @@
 
               <a
                 href="/template/v-for.html"
-                class="list-group-item list-group-item-action list-group-item-success active"
+                class="list-group-item list-group-item-action list-group-item-success"
               >
                 呈現多筆資料
               </a>
@@ -203,7 +282,7 @@
 
               <a
                 href="/template/form.html"
-                class="list-group-item list-group-item-action list-group-item-danger"
+                class="list-group-item list-group-item-action list-group-item-danger active"
               >
                 v-model 與表單
               </a>
