@@ -91,12 +91,11 @@
                   </div>
                 </div>
               </div>
+              <template v-for="(img) in tempProduct.imagesUrl">
+                <img class="images m-2" :src="img" alt="" />
+              </template>
             </template>
-            <template v-for="(img) in tempProduct.imagesUrl">
-              <img class="images m-2" :src="img" alt="" />
-            </template>
-
-            <p class="text-secondary">請選擇一個商品查看</p>
+            <p class="text-secondary" v-else>請選擇一個商品查看</p>
           </div>
         </div>
       </div>
