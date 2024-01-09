@@ -19,7 +19,7 @@ loginBtn.addEventListener("click", (e) => {
       const { token, expired } = res.data;
       console.log(token, expired);
       document.cookie = `hexToken=${token};expires=${new Date(expired)}`;
-      window.location.replace("product.html");
+      window.location.replace("products.html");
     })
     .catch((err) => {
       console.dir(err);

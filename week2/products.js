@@ -79,7 +79,7 @@ createApp({
         .catch((err) => {
           console.dir(err);
           alert(err.data.message);
-          window.location.replace("index.html");
+          window.location.replace("login.html");
         });
     },
     changeProduct(e) {
