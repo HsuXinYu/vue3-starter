@@ -15,9 +15,9 @@ loginBtn.addEventListener("click", (e) => {
   axios
     .post(`${url}/admin/signin`, user)
     .then((res) => {
-      console.log(res);
+      // console.log(res);
       const { token, expired } = res.data;
-      console.log(token, expired);
+      // console.log(token, expired);
       document.cookie = `hexToken=${token};expires=${new Date(expired)}`;
       window.location.replace("products.html");
     })
