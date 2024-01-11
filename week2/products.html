@@ -57,7 +57,7 @@
                       type="button"
                       class="btn btn-primary"
                       :value="`${item.id}`"
-                      @click="changeProduct"
+                      @click="changeProduct(item)"
                     >
                       查看細節
                     </button>
@@ -65,40 +65,42 @@
                 </tr>
               </tbody>
             </table>
-            <p>目前有 <span>{{ `${products.length}` }}</span> 項產品</p>
+            <p>目前有 <span>{{ products.length }}</span> 項產品</p>
           </div>
           <div class="col-md-6">
             <h2>單一產品細節</h2>
-            <template v-for="(item) in productDetail">
+            <template v-if="productDetail.id">
               <div class="card mb-3">
                 <img
-                  :src="item.imageUrl"
+                  :src="productDetail.imageUrl"
                   class="card-img-top primary-image"
                   alt="主圖"
                 />
                 <div class="card-body">
                   <h5 class="card-title">
-                    {{ item.title }}
+                    {{ productDetail.title }}
                     <span class="badge bg-primary ms-2"
-                      >{{ item.category }}</span
+                      >{{ productDetail.category }}</span
                     >
                   </h5>
-                  <p class="card-text">商品描述：{{ item.description }}</p>
-                  <p class="card-text">商品內容：{{ item.content }}</p>
+                  <p class="card-text">
+                    商品描述：{{ productDetail.description }}
+                  </p>
+                  <p class="card-text">商品內容：{{ productDetail.content }}</p>
                   <div class="d-flex">
-                    <p class="card-text me-2">{{ item.price }}</p>
+                    <p class="card-text me-2">{{ productDetail.price }}</p>
                     <p class="card-text text-secondary">
-                      <del>{{ item.origin_price }}</del>
+                      <del>{{ productDetail.origin_price }}</del>
                     </p>
-                    元 / {{ item.unit }}
+                    元 / {{ productDetail.unit }}
                   </div>
                 </div>
               </div>
-              <template v-for="(img) in productDetail[0].imagesUrl">
+              <template v-for="(img) in productDetail.imagesUrl">
                 <img :src="img" alt="" class="images m-2" />
               </template>
             </template>
-            <p class="text-secondary">請選擇一個商品查看</p>
+            <p class="text-secondary" v-else>請選擇一個商品查看</p>
           </div>
         </div>
       </div>
