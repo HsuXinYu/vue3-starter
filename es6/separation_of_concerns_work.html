@@ -46,13 +46,14 @@
                 this.data.splice(id, 1);
                 this.render();
               },
-              addData(Data) {
-                this.data.push(Data);
+              addData(data) {
+                this.data.push(data);
                 this.render();
               },
               render() {
                 // 渲染方法
                 const list = document.querySelector(".component ul");
+
                 let content = "";
                 this.data.forEach((item, i) => {
                   content = `${content}<li>${item} <button type="button" class="btn" data-id="${i}">移除</button></li>`;
@@ -71,17 +72,14 @@
                     this.removeData(id);
                   })
                 );
-
-                const addBtn = document.querySelector(".addBtn");
-                addBtn.addEventListener("click", () => {
-                  let inputData = document.querySelector(".inputData").value;
-                  console.log(inputData);
-                  console.log(this.data);
-                  this.addData(inputData);
-                });
               },
               init() {
                 this.render();
+                const addBtn = document.querySelector(".addBtn");
+                addBtn.addEventListener("click", () => {
+                  let inputData = document.querySelector(".inputData").value;
+                  this.addData(inputData);
+                });
               },
             };
             component.init();

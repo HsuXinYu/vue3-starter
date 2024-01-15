@@ -38,7 +38,7 @@ createApp({
           alert(err.data.message);
         });
     },
-    changeProduct(item) {
+    checkProduct(item) {
       // let id = e.target.value;
       // console.log(this.productDetail);
       // console.log(this.products.filter((item) => item.id === id));
