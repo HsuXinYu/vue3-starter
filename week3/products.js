@@ -70,41 +70,33 @@ createApp({
         // console.log(this.tempProduct);
       } else if (event == "post") {
         postModal.show();
+      } else if (event == "edit") {
+        postModal.show();
+        this.tempProduct = { ...product };
+        // console.log(this.tempProduct);
       }
     },
-    deleteProduct() {
-      const productId = this.tempProduct.id;
-      // console.log(productId);
-      axios
-        .delete(`${this.url}/api/${this.path}/admin/product/${productId}`)
-        .then((res) => {
-          // console.log(res.data);
-          alert(res.data.message);
-          delModal.hide();
-          this.getProduct();
-        })
-        .catch((err) => {
-          console.dir(err);
-          // alert(err.data.message);
-        });
-    },
     postProduct() {
-      let product = { ...this.tempProduct };
-      // console.log(product);
+      if (this.tempProduct == "") {
+        let product = { ...this.tempProduct };
+        // console.log(product);
 
-      axios
-        .post(`${this.url}/api/${this.path}/admin/product`, { data: product })
-        .then((res) => {
-          // console.log(res.data);
-          alert(res.data.message);
-          // this.tempProduct = "";
-          postModal.hide();
-          this.getProduct();
-        })
-        .catch((err) => {
-          console.dir(err);
-          // alert(err.data.message);
-        });
+        axios
+          .post(`${this.url}/api/${this.path}/admin/product`, { data: product })
+          .then((res) => {
+            // console.log(res.data);
+            alert(res.data.message);
+            // this.tempProduct = "";
+            postModal.hide();
+            this.getProduct();
+          })
+          .catch((err) => {
+            // console.dir(err);
+            alert(err.data.message);
+          });
+      } else {
+        this.editProduct();
+      }
     },
     addImage() {
       if (this.tempProduct.imageUrl === "") {
@@ -119,6 +111,41 @@ createApp({
       } else {
         this.tempProduct.imageUrl = "";
       }
+    },
+    deleteProduct() {
+      const productId = this.tempProduct.id;
+      // console.log(productId);
+      axios
+        .delete(`${this.url}/api/${this.path}/admin/product/${productId}`)
+        .then((res) => {
+          // console.log(res.data);
+          alert(res.data.message);
+          delModal.hide();
+          this.getProduct();
+        })
+        .catch((err) => {
+          // console.dir(err);
+          alert(err.data.message);
+        });
+    },
+    editProduct() {
+      const productId = this.tempProduct.id;
+      let product = { ...this.tempProduct };
+
+      axios
+        .put(`${this.url}/api/${this.path}/admin/product/${productId}`, {
+          data: product,
+        })
+        .then((res) => {
+          // console.log(res.data);
+          alert(res.data.message);
+          postModal.hide();
+          this.getProduct();
+        })
+        .catch((err) => {
+          // console.dir(err);
+          alert(err.data.message);
+        });
     },
   },
   mounted() {
