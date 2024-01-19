@@ -35,6 +35,7 @@ createApp({
         imagesUrl: [],
       },
       tempImage: "",
+      event: "",
     };
   },
   methods: {
@@ -64,11 +65,15 @@ createApp({
     },
     showModal(event, product) {
       // console.log(event);
+      this.event = event;
       if (event == "del") {
         delModal.show();
-        this.tempProduct = { ...product };
+        this.tempProduct = product;
         // console.log(this.tempProduct);
       } else if (event == "post") {
+        this.tempProduct = {
+          imagesUrl: [],
+        };
         postModal.show();
       } else if (event == "edit") {
         postModal.show();
@@ -76,37 +81,32 @@ createApp({
         // console.log(this.tempProduct);
       }
     },
-    postProduct() {
-      if (this.tempProduct == "") {
-        let product = { ...this.tempProduct };
-        // console.log(product);
-
-        axios
-          .post(`${this.url}/api/${this.path}/admin/product`, { data: product })
-          .then((res) => {
-            // console.log(res.data);
-            alert(res.data.message);
-            // this.tempProduct = "";
-            postModal.hide();
-            this.getProduct();
-          })
-          .catch((err) => {
-            // console.dir(err);
-            alert(err.data.message);
-          });
-      } else {
-        this.editProduct();
-      }
+    postProduct(product) {
+      // console.log(product);
+      axios
+        .post(`${this.url}/api/${this.path}/admin/product`, { data: product })
+        .then((res) => {
+          // console.log(res.data);
+          alert(res.data.message);
+          postModal.hide();
+          this.getProduct();
+        })
+        .catch((err) => {
+          // console.dir(err);
+          alert(err.data.message);
+        });
     },
     addImage() {
-      if (this.tempProduct.imageUrl === "") {
+      if (this.tempImage === "") {
+        alert("請輸入圖片網址");
+      } else if (!this.tempProduct.imageUrl) {
         this.tempProduct.imageUrl = this.tempImage;
       } else {
         this.tempProduct.imagesUrl.push(this.tempImage);
       }
     },
     removeImage() {
-      if (this.tempProduct.imagesUrl != "") {
+      if (this.tempProduct.imagesUrl.length != 0) {
         this.tempProduct.imagesUrl.pop();
       } else {
         this.tempProduct.imageUrl = "";

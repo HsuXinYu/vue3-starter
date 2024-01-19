@@ -12,13 +12,6 @@
       integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
       crossorigin="anonymous"
     />
-    <style>
-      .primary-image,
-      .secondary-image {
-        width: 100px;
-        height: 100px;
-      }
-    </style>
   </head>
   <body>
     <div id="app">
@@ -91,7 +84,7 @@
           <div class="modal-content border-0">
             <div class="modal-header bg-dark text-white">
               <h5 id="productModalLabel" class="modal-title">
-                <span>新增產品</span>
+                <span>{{event == "post" ? "新增產品" : "編輯產品"}}</span>
               </h5>
               <button
                 type="button"
@@ -186,7 +179,7 @@
                         min="0"
                         class="form-control"
                         placeholder="請輸入原價"
-                        v-model="tempProduct.origin_price"
+                        v-model.number="tempProduct.origin_price"
                       />
                     </div>
                     <div class="mb-3 col-md-6">
@@ -197,7 +190,7 @@
                         min="0"
                         class="form-control"
                         placeholder="請輸入售價"
-                        v-model="tempProduct.price"
+                        v-model.number="tempProduct.price"
                       />
                     </div>
                   </div>
@@ -253,7 +246,7 @@
               <button
                 type="button"
                 class="btn btn-primary"
-                @click="postProduct"
+                @click="postProduct(tempProduct)"
               >
                 確認
               </button>

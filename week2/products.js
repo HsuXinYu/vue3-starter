@@ -44,7 +44,7 @@ createApp({
       // console.log(this.products.filter((item) => item.id === id));
       // this.productDetail = this.products.filter((item) => item.id === id);
       this.productDetail = item;
-      console.log(this.productDetail);
+      // console.log(this.productDetail);
     },
   },
   mounted() {
