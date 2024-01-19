@@ -66,15 +66,15 @@ createApp({
     showModal(event, product) {
       // console.log(event);
       this.event = event;
-      if (event == "del") {
-        delModal.show();
-        this.tempProduct = product;
-        // console.log(this.tempProduct);
-      } else if (event == "post") {
+      if (event == "post") {
         this.tempProduct = {
           imagesUrl: [],
         };
         postModal.show();
+      } else if (event == "del") {
+        delModal.show();
+        this.tempProduct = product;
+        // console.log(this.tempProduct);
       } else if (event == "edit") {
         postModal.show();
         this.tempProduct = { ...product };
