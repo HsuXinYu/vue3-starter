@@ -68,10 +68,10 @@ createApp({
   },
   methods: {
     changeProduct(e) {
-      console.log(e.target.value);
+      // console.log(e.target.value);
       let id = e.target.value;
-      console.log(this.productDetail);
-      console.log(this.products.filter((item) => item.id === id));
+      // console.log(this.productDetail);
+      // console.log(this.products.filter((item) => item.id === id));
       this.productDetail = this.products.filter((item) => item.id === id);
     },
   },

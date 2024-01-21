@@ -2,9 +2,7 @@ export default {
   //父元件傳遞參數
   props: ["url", "path", "event", "tempProduct"],
   data() {
-    return {
-      tempImage: "",
-    };
+    return {};
   },
   methods: {
     processEvent() {
@@ -31,19 +29,14 @@ export default {
         });
     },
     addImage() {
-      if (this.tempImage === "") {
-        alert("請輸入圖片網址");
-      } else if (!this.tempProduct.imageUrl) {
-        this.tempProduct.imageUrl = this.tempImage;
-      } else {
-        this.tempProduct.imagesUrl.push(this.tempImage);
+      if (this.tempProduct.imageUrl) {
+        console.log(this.tempProduct.imageUrl, this.tempProduct.imagesUrl);
+        this.tempProduct.imagesUrl.push(this.tempProduct.imageUrl);
       }
     },
     removeImage() {
-      if (this.tempProduct.imagesUrl.length != 0) {
+      if (this.tempProduct.imagesUrl != 0) {
         this.tempProduct.imagesUrl.pop();
-      } else {
-        this.tempProduct.imageUrl = "";
       }
     },
     editProduct() {
@@ -65,6 +58,15 @@ export default {
           alert(err.data.message);
         });
     },
+
+    // watch: {
+    //   uploadImage(n, o) {
+    //     console.log(n, o);
+    //     console.dir(fileInput);
+    //     const file = fileInput.files[0];
+    //     console.log(file);
+    //   },
+    // },
   },
   template: `<div
   id="productModal"
@@ -97,11 +99,9 @@ export default {
                   type="text"
                   class="form-control"
                   placeholder="請輸入圖片連結"
-                  v-model="tempImage"
+                  v-model="tempProduct.imageUrl"
                 />
               </div>
-              <img class="img-fluid" :src="tempImage" alt="" />
-              <hr />
               <img
                 class="primary-image"
                 :src="tempProduct.imageUrl"

@@ -31,6 +31,7 @@
             <tr>
               <th width="120">分類</th>
               <th>產品名稱</th>
+              <th>產品主圖</th>
               <th width="120">原價</th>
               <th width="120">售價</th>
               <th width="100">是否啟用</th>
@@ -41,6 +42,7 @@
             <tr v-for="(product) in products" :key="product.id">
               <td>{{product.category}}</td>
               <td>{{product.title}}</td>
+              <td><img :src="product.imageUrl" alt="主圖" /></td>
               <td class="text-end">{{product.origin_price}}</td>
               <td class="text-end">{{product.price}}</td>
               <td>

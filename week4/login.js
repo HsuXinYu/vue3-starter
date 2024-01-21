@@ -29,7 +29,7 @@ createApp({
           window.location.replace("products.html");
         })
         .catch((err) => {
-          console.dir(err);
+          // console.dir(err);
           alert(err.data.message);
         });
     },

@@ -69,7 +69,7 @@ const app = createApp({
         this.tempProduct = product;
         delModal.show();
       } else if (event == "edit") {
-        this.tempProduct = { ...product };
+        this.tempProduct = { imagesUrl: [], ...product };
         postModal.show();
       }
     },
