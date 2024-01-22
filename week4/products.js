@@ -1,8 +1,8 @@
 // 具名引用
 import { createApp } from "https://unpkg.com/vue@3/dist/vue.esm-browser.js";
-import pagination from "./pagination.js";
-import postProductModal from "./postProductModal.js";
-import delProductModal from "./delProductModal.js";
+import pagination from "./components/pagination.js";
+import postProductModal from "./components/postProductModal.js";
+import delProductModal from "./components/delProductModal.js";
 
 let postModal = "";
 let delModal = "";

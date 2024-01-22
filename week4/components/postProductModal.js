@@ -28,6 +28,24 @@ export default {
           alert(err.data.message);
         });
     },
+    uploadImage(e) {
+      // console.log(e.target.files[0]);
+      const file = e.target.files[0];
+      const formData = new FormData();
+
+      formData.append("file-to-upload", file);
+      axios
+        .post(`${this.url}/api/${this.path}/admin/upload`, formData)
+        .then((res) => {
+          // console.log(res);
+          this.tempProduct.imageUrl = res.data.imageUrl;
+          e.target.value = "";
+        })
+        .catch((err) => {
+          console.dir(err.message);
+          alert(err.message);
+        });
+    },
     addImage() {
       if (this.tempProduct.imageUrl) {
         console.log(this.tempProduct.imageUrl, this.tempProduct.imagesUrl);
@@ -58,15 +76,6 @@ export default {
           alert(err.data.message);
         });
     },
-
-    // watch: {
-    //   uploadImage(n, o) {
-    //     console.log(n, o);
-    //     console.dir(fileInput);
-    //     const file = fileInput.files[0];
-    //     console.log(file);
-    //   },
-    // },
   },
   template: `<div
   id="productModal"
@@ -94,6 +103,16 @@ export default {
           <div class="col-sm-4">
             <div class="mb-2">
               <div class="mb-3">
+              <label for="" class="form-label">上傳圖片取得圖片網址</label>
+              <input
+                  type="file"
+                  class="form-control"
+                  id="file"
+                  placeholder="請輸入圖片連結"
+                  @change="uploadImage($event)"
+              />
+              </div>
+              <div class="mb-3">
                 <label for="" class="form-label">輸入圖片網址</label>
                 <input
                   type="text"
@@ -103,13 +122,13 @@ export default {
                 />
               </div>
               <img
-                class="primary-image"
+                class="img-fluid"
                 :src="tempProduct.imageUrl"
                 alt="主圖"
                 v-if="tempProduct.imageUrl"
               />
               <template v-for="(image) in tempProduct.imagesUrl">
-                <img class="secondary-image" :src="image" alt="次要圖" />
+                <img class="img-fluid" :src="image" alt="次要圖" />
               </template>
             </div>
             <div>
