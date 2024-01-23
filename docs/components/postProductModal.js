@@ -2,9 +2,7 @@ export default {
   //父元件傳遞參數
   props: ["url", "path", "event", "tempProduct"],
   data() {
-    return {
-      tempImage: "",
-    };
+    return {};
   },
   methods: {
     processEvent() {
@@ -30,20 +28,33 @@ export default {
           alert(err.data.message);
         });
     },
+    uploadImage(e) {
+      // console.log(e.target.files[0]);
+      const file = e.target.files[0];
+      const formData = new FormData();
+
+      formData.append("file-to-upload", file);
+      axios
+        .post(`${this.url}/api/${this.path}/admin/upload`, formData)
+        .then((res) => {
+          // console.log(res);
+          this.tempProduct.imageUrl = res.data.imageUrl;
+          e.target.value = "";
+        })
+        .catch((err) => {
+          console.dir(err.message);
+          alert(err.message);
+        });
+    },
     addImage() {
-      if (this.tempImage === "") {
-        alert("請輸入圖片網址");
-      } else if (!this.tempProduct.imageUrl) {
-        this.tempProduct.imageUrl = this.tempImage;
-      } else {
-        this.tempProduct.imagesUrl.push(this.tempImage);
+      if (this.tempProduct.imageUrl) {
+        console.log(this.tempProduct.imageUrl, this.tempProduct.imagesUrl);
+        this.tempProduct.imagesUrl.push(this.tempProduct.imageUrl);
       }
     },
     removeImage() {
-      if (this.tempProduct.imagesUrl.length != 0) {
+      if (this.tempProduct.imagesUrl != 0) {
         this.tempProduct.imagesUrl.pop();
-      } else {
-        this.tempProduct.imageUrl = "";
       }
     },
     editProduct() {
@@ -92,24 +103,32 @@ export default {
           <div class="col-sm-4">
             <div class="mb-2">
               <div class="mb-3">
+              <label for="" class="form-label">上傳圖片取得圖片網址</label>
+              <input
+                  type="file"
+                  class="form-control"
+                  id="file"
+                  placeholder="請輸入圖片連結"
+                  @change="uploadImage($event)"
+              />
+              </div>
+              <div class="mb-3">
                 <label for="" class="form-label">輸入圖片網址</label>
                 <input
                   type="text"
                   class="form-control"
                   placeholder="請輸入圖片連結"
-                  v-model="tempImage"
+                  v-model="tempProduct.imageUrl"
                 />
               </div>
-              <img class="img-fluid" :src="tempImage" alt="" />
-              <hr />
               <img
-                class="primary-image"
+                class="img-fluid"
                 :src="tempProduct.imageUrl"
                 alt="主圖"
                 v-if="tempProduct.imageUrl"
               />
               <template v-for="(image) in tempProduct.imagesUrl">
-                <img class="secondary-image" :src="image" alt="次要圖" />
+                <img class="img-fluid" :src="image" alt="次要圖" />
               </template>
             </div>
             <div>

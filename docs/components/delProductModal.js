@@ -6,7 +6,7 @@ export default {
   methods: {
     deleteProduct() {
       const productId = this.tempProduct.id;
-      console.log(productId);
+      // console.log(productId);
       axios
         .delete(`${this.url}/api/${this.path}/admin/product/${productId}`)
         .then((res) => {

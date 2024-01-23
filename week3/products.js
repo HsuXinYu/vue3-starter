@@ -46,7 +46,7 @@ createApp({
           // console.log(res.data);
         })
         .catch((err) => {
-          console.dir(err);
+          // console.dir(err);
           alert(err.data.message);
           window.location.replace("login.html");
         });
@@ -59,7 +59,7 @@ createApp({
           this.products = res.data.products;
         })
         .catch((err) => {
-          console.dir(err);
+          // console.dir(err);
           alert(err.data.message);
         });
     },
