@@ -1,33 +1,46 @@
+import cartStore from "../store/cartStore.js";
+
+const { mapState, mapActions } = Pinia;
+
 export default {
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState(cartStore, ["cartList"]),
+  },
+  methods: {
+    ...mapActions(cartStore, ["removeFromCart", "setCartQuantity"]),
+  },
   template: `<div class="bg-light p-4 my-4">
-    <div>購物車沒有任何品項</div>
-    <table class="table align-middle">
-      <tbody>
+    <div v-if="!cartList.carts.length">購物車沒有任何品項</div>
+    <table class="table align-middle" v-else>
+      <tbody v-for="(item) in cartList.carts" :key="item.id">
         <tr>
           <td width="100">
-            <a href="#" class="text-dark"
+            <a href="#" class="text-dark" @click.prevent="removeFromCart(item.id)"
               ><i class="fas fa-times"></i
             ></a>
           </td>
           <td width="100">
             <img
-              src="https://images.unsplash.com/photo-1597733153203-a54d0fbc47de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1090&q=80"
+              :src="item.product.imageUrl"
               class="table-image"
               alt=""
             />
           </td>
-          <td>爽快快的</td>
+          <td>{{item.product.title}}</td>
           <td width="200">
-            <select name="" id="" class="form-select">
-              <option value="1">1</option>
+            <select name="" id="" class="form-select" :value="item.quantity" @change="(event) => setCartQuantity(item.id,event)">
+              <option :value="i" v-for="(i) in  10" :key="i">{{i}}</option>
             </select>
           </td>
-          <td width="200" class="text-end">$900</td>
+          <td width="200" class="text-end">{{item.product.price}}</td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
-          <td colspan="5" class="text-end">總金額 NT$ 1000</td>
+          <td colspan="5" class="text-end">總金額 NT$ {{ cartList.total }} </td>
         </tr>
       </tfoot>
     </table>

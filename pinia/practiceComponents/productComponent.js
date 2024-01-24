@@ -1,12 +1,17 @@
-import productsStore from "../store/productsStore.js";
-const { mapState } = Pinia;
+import productStore from "../store/productStore.js";
+import cartStore from "../store/cartStore.js";
+
+const { mapState, mapActions } = Pinia;
 
 export default {
   data() {
     return {};
   },
   computed: {
-    ...mapState(productsStore, ["sortProducts"]),
+    ...mapState(productStore, ["sortProducts"]),
+  },
+  methods: {
+    ...mapActions(cartStore, ["addToCart"]),
   },
   template: `<div class="row row-cols-3 my-3 g-4">
     <div class="col" v-for="(product) in sortProducts" :key="product.id">
@@ -21,7 +26,7 @@ export default {
             {{product.title}}
             <span class="float-end">$ {{product.price}}</span>
           </h6>
-          <a href="#" class="btn btn-outline-primary w-100"
+          <a href="#" class="btn btn-outline-primary w-100" @click.prevent="addToCart(product.id)"
             >加入購物車</a
           >
         </div>
