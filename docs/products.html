@@ -73,7 +73,10 @@
             </tr>
           </tbody>
         </table>
-        <pagination></pagination>
+        <pagination
+          :pagination="pagination"
+          @get-Product="getProduct"
+        ></pagination>
       </div>
       <!-- Modal -->
       <!-- 新增產品 -->

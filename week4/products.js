@@ -16,24 +16,40 @@ const app = createApp({
       path: "lucky_herb_spices",
       products: [],
       //產品資料結構
-      // data: {
-      //   title: "[賣]動物園造型衣服3",
-      //   category: "衣服2",
-      //   origin_price: 100,
-      //   price: 300,
-      //   unit: "個",
-      //   description: "Sit down please 名設計師設計",
-      //   content: "這是內容",
-      //   is_enabled: 1,
-      //   imageUrl: "主圖網址",
-      //   imagesUrl: [
-      //     "圖片網址一",
-      //     "圖片網址二",
-      //     "圖片網址三",
-      //     "圖片網址四",
-      //     "圖片網址五",
+      // {
+      //   "success": true,
+      //   "products": [
+      //     {
+      //       "category": "衣服2",
+      //       "content": "這是內容",
+      //       "description": "Sit down please 名設計師設計",
+      //       "id": "-L9tH8jxVb2Ka_DYPwng",
+      //       "is_enabled": 1,
+      //       "origin_price": 100,
+      //       "price": 600,
+      //       "title": "[賣]動物園造型衣服3",
+      //       "unit": "個",
+      //       "num": 1,
+      //       "imageUrl": "主圖網址",
+      //       "imagesUrl": [
+      //         "圖片網址一",
+      //         "圖片網址二",
+      //         "圖片網址三",
+      //         "圖片網址四",
+      //         "圖片網址五"
+      //       ]
+      //     }
       //   ],
-      // },
+      //   "pagination": {
+      //     "total_pages": 1,
+      //     "current_page": 1,
+      //     "has_pre": false,
+      //     "has_next": false,
+      //     "category": ""
+      //   },
+      //   "messages": []
+      // }
+      pagination: {},
       tempProduct: {
         imagesUrl: [],
       },
@@ -80,11 +96,12 @@ const app = createApp({
         delModal.hide();
       }
     },
-    getProduct() {
+    getProduct(page = 1) {
       axios
-        .get(`${this.url}/api/${this.path}/admin/products/all`)
+        .get(`${this.url}/api/${this.path}/admin/products/?page=${page}`)
         .then((res) => {
           // console.log(res.data);
+          this.pagination = res.data.pagination;
           this.products = res.data.products;
         })
         .catch((err) => {
