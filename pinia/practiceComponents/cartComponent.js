@@ -35,7 +35,7 @@ export default {
               <option :value="i" v-for="(i) in  10" :key="i">{{i}}</option>
             </select>
           </td>
-          <td width="200" class="text-end">{{item.product.price}}</td>
+          <td width="200" class="text-end">$ {{item.product.price}}</td>
         </tr>
       </tbody>
       <tfoot>
