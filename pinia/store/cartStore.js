@@ -1,5 +1,6 @@
-const { defineStore } = Pinia;
 import productStore from "./productStore.js";
+
+const { defineStore } = Pinia;
 
 export default defineStore("cartStore", {
   state: () => ({
@@ -44,7 +45,7 @@ export default defineStore("cartStore", {
 
       //整合cart及products資訊
       const carts = cart.map((item) => {
-        // console.log(item);
+        console.log(item);
         const product = products.find(
           (product) => product.id === item.productId
         );

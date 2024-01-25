@@ -24,8 +24,19 @@
             <Product-Component></Product-Component>
           </div>
 
+          <!-- VueDemi，使用 Pinia 必要的相依套件 -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-demi/0.13.11/index.iife.js"></script>
+          <script>
+            const I = VueDemi;
+            const vueDemi = VueDemi;
+          </script>
+
+          <!-- Pinia 網頁版，實戰中還是以 npm 為主，這是比較少見的使用方式 -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/pinia/2.0.22/pinia.iife.js"></script>
+
           <script type="module">
             const { createApp } = Vue;
+            const { createPinia } = Pinia;
 
             import ProductComponent from "./components/productComponent.js";
             import CartComponent from "./components/cartComponent.js";
@@ -39,6 +50,10 @@
               },
             };
             const app = createApp(App);
+            const pinia = createPinia();
+            // console.log(pinia);
+
+            app.use(pinia);
             app.mount("#app");
           </script>
 
