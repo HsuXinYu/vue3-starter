@@ -76,21 +76,21 @@ const app = createApp({
     },
     showModal(event, product) {
       this.event = event;
-      if (event == "post") {
+      if (event === "post") {
         this.tempProduct = {
           imagesUrl: [],
         };
         postModal.show();
-      } else if (event == "del") {
+      } else if (event === "del") {
         this.tempProduct = product;
         delModal.show();
-      } else if (event == "edit") {
+      } else if (event === "edit") {
         this.tempProduct = { imagesUrl: [], ...product };
         postModal.show();
       }
     },
     hideModal() {
-      if (this.event == "post" || this.event == "edit") {
+      if (this.event === "post" || this.event === "edit") {
         postModal.hide();
       } else if ((this.event = "del")) {
         delModal.hide();

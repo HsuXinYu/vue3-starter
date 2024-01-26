@@ -6,9 +6,9 @@ export default {
   },
   methods: {
     processEvent() {
-      if (this.event == "post") {
+      if (this.event === "post") {
         this.postProduct();
-      } else if (this.event == "edit") {
+      } else if (this.event === "edit") {
         this.editProduct();
       }
     },
@@ -48,7 +48,7 @@ export default {
     },
     addImage() {
       if (this.tempProduct.imageUrl) {
-        console.log(this.tempProduct.imageUrl, this.tempProduct.imagesUrl);
+        // console.log(this.tempProduct.imageUrl, this.tempProduct.imagesUrl);
         this.tempProduct.imagesUrl.push(this.tempProduct.imageUrl);
       }
     },
@@ -89,7 +89,7 @@ export default {
     <div class="modal-content border-0">
       <div class="modal-header bg-dark text-white">
         <h5 id="productModalLabel" class="modal-title">
-          <span>{{event == "post" ? "新增產品" : "編輯產品"}}</span>
+          <span>{{event === "post" ? "新增產品" : "編輯產品"}}</span>
         </h5>
         <button
           type="button"
@@ -105,9 +105,9 @@ export default {
               <div class="mb-3">
               <label for="" class="form-label">上傳圖片取得圖片網址</label>
               <input
+                  id="file"
                   type="file"
                   class="form-control"
-                  id="file"
                   placeholder="請輸入圖片連結"
                   @change="uploadImage($event)"
               />
@@ -173,7 +173,7 @@ export default {
                 />
               </div>
               <div class="mb-3 col-md-6">
-                <label for="price" class="form-label">單位</label>
+                <label for="unit" class="form-label">單位</label>
                 <input
                   id="unit"
                   type="text"
@@ -222,7 +222,7 @@ export default {
             <div class="mb-3">
               <label for="content" class="form-label">說明內容</label>
               <textarea
-                id="description"
+                id="content"
                 type="text"
                 class="form-control"
                 placeholder="請輸入說明內容"
