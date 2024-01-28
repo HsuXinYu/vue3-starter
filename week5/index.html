@@ -24,8 +24,74 @@
     <div id="app">
       <div class="container">
         <div class="mt-4">
-          <!-- 產品Modal -->
-          <!-- 產品Modal -->
+          <!-- 產品細節彈窗 -->
+          <div
+            class="modal fade"
+            id="productModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+            ref="modal"
+          >
+            <div class="modal-dialog modal-xl" role="document">
+              <div class="modal-content border-0">
+                <div class="modal-header bg-dark text-white">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    <span>{{ productDetail.title }}</span>
+                  </h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <img
+                        class="img-fluid"
+                        :src="productDetail.imageUrl"
+                        alt="主圖"
+                      />
+                    </div>
+                    <div class="col-sm-6">
+                      <span class="badge bg-primary rounded-pill">{{ }}</span>
+                      <p>商品描述：{{ productDetail.description}}</p>
+                      <p>商品內容：{{ productDetail.content }}</p>
+                      <!-- <div class="h5">{{ productDetail.price }} 元</div> -->
+                      <del class="h6"
+                        >原價 {{ productDetail.origin_price }} 元</del
+                      >
+                      <div class="h5">
+                        現在只要 {{ productDetail.price }} 元
+                      </div>
+                      <div>
+                        <div class="input-group">
+                          <input
+                            type="number"
+                            class="form-control"
+                            min="1"
+                            v-model="cart.qty"
+                          />
+                          <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click.prevent="addToCart(productDetail.id)"
+                          >
+                            加入購物車
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 產品列表 -->
           <table class="table align-middle">
             <thead>
               <tr>
@@ -56,11 +122,19 @@
                 </td>
                 <td>
                   <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-outline-secondary">
+                    <button
+                      type="button"
+                      class="btn btn-outline-secondary"
+                      @click.prevent="getProductDetail(product.id)"
+                    >
                       <i class="fas fa-spinner fa-pulse"></i>
                       查看更多
                     </button>
-                    <button type="button" class="btn btn-outline-danger">
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger"
+                      @click.prevent="addToCart(product.id)"
+                    >
                       <i class="fas fa-spinner fa-pulse"></i>
                       加到購物車
                     </button>
@@ -69,6 +143,7 @@
               </tr>
             </tbody>
           </table>
+
           <!-- 購物車列表 -->
           <div class="text-end">
             <button class="btn btn-outline-danger" type="button">
@@ -126,6 +201,8 @@
             </tfoot>
           </table>
         </div>
+
+        <!-- 購買人資訊 -->
         <div class="my-5 row justify-content-center">
           <!-- <v-form ref="form" class="col-md-6" v-slot="{ errors }">
             <div class="mb-3">
@@ -210,58 +287,6 @@
         </div>
       </div>
     </div>
-
-    <script type="text/x-template" id="userProductModal">
-        <div
-        class="modal fade"
-        id="productModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        ref="modal"
-      >
-        <div class="modal-dialog modal-xl" role="document">
-          <div class="modal-content border-0">
-            <div class="modal-header bg-dark text-white">
-              <h5 class="modal-title" id="exampleModalLabel">
-                <span>{{ }}</span>
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <div class="row">
-                <div class="col-sm-6">
-                  <img class="img-fluid" :src="" alt="" />
-                </div>
-                <div class="col-sm-6">
-                  <span class="badge bg-primary rounded-pill">{{ }}</span>
-                  <p>商品描述：{{ }}</p>
-                  <p>商品內容：{{ }}</p>
-                  <div class="h5">{{ }} 元</div>
-                  <del class="h6">原價 {{ }} 元</del>
-                  <div class="h5">現在只要 {{ }} 元</div>
-                  <div>
-                    <div class="input-group">
-                      <input type="number" class="form-control" min="1" />
-                      <button type="button" class="btn btn-primary">
-                        加入購物車
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                <!-- col-sm-6 end -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </script>
 
     <!-- Axios -->
     <script
