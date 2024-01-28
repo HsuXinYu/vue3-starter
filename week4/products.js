@@ -8,12 +8,13 @@ let postModal = "";
 let delModal = "";
 
 //Options API
-const app = createApp({
+createApp({
   data() {
     return {
       //API path
       url: "https://vue3-course-api.hexschool.io/v2",
       path: "lucky_herb_spices",
+      pagination: {},
       products: [],
       //產品資料結構
       // {
@@ -49,7 +50,6 @@ const app = createApp({
       //   },
       //   "messages": []
       // }
-      pagination: {},
       tempProduct: {
         imagesUrl: [],
       },
