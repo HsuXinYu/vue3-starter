@@ -11,6 +11,7 @@ const app = createApp({
       products: [],
       productDetail: {},
       cart: { qty: 1 },
+      carts: [],
     };
   },
   methods: {
@@ -27,10 +28,10 @@ const app = createApp({
           alert(err.data.message);
         });
     },
-    getProductDetail(id) {
-      // console.log(id);
+    getProductDetail(product_id) {
+      // console.log(product_id);
       axios
-        .get(`${this.url}/api/${this.path}/product/${id}`)
+        .get(`${this.url}/api/${this.path}/product/${product_id}`)
         .then((res) => {
           // console.log(res.data);
           detailModal.show();
@@ -47,14 +48,29 @@ const app = createApp({
       //   "product_id": "-L9tH8jxVb2Ka_DYPwng",
       //   "qty": 1
       // }
+
       // console.log(product_id, this.cart.qty);
-      this.cart = { product_id, ...this.cart };
+      const cart = { product_id, ...this.cart };
 
       axios
-        .post(`${this.url}/api/${this.path}/cart`, { data: this.cart })
+        .post(`${this.url}/api/${this.path}/cart`, { data: cart })
         .then((res) => {
           // console.log(res.data);
           alert(res.data.message);
+          this.getCart();
+        })
+        .catch((err) => {
+          // console.dir(err);
+          alert(err.data.message);
+        });
+    },
+    getCart() {
+      //
+      axios
+        .get(`${this.url}/api/${this.path}/cart`)
+        .then((res) => {
+          // console.log(res.data.data);
+          this.carts = res.data.data;
         })
         .catch((err) => {
           // console.dir(err);
@@ -62,8 +78,11 @@ const app = createApp({
         });
     },
   },
+  watch: {},
   mounted() {
     this.getProduct();
+    this.getCart();
+
     detailModal = new bootstrap.Modal(this.$refs.modal);
   },
 }).mount("#app");
