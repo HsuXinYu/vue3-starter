@@ -14,16 +14,19 @@ const app = createApp({
       carts: [],
       total: 0,
       final_total: 0,
+      isLoading: false,
     };
   },
   methods: {
     getProduct() {
+      const loader = this.$loading.show();
       axios
         .get(`${this.url}/api/${this.path}/products`)
         .then((res) => {
           // console.log(res.data);
           this.pagination = res.data.pagination;
           this.products = res.data.products;
+          loader.hide();
         })
         .catch((err) => {
           // console.dir(err);
@@ -31,12 +34,15 @@ const app = createApp({
     },
     getProductDetail(product_id) {
       // console.log(product_id);
+      this.isLoading = true;
+
       axios
         .get(`${this.url}/api/${this.path}/product/${product_id}`)
         .then((res) => {
           // console.log(res.data);
           detailModal.show();
           this.productDetail = res.data.product;
+          this.isLoading = false;
         })
         .catch((err) => {
           // console.dir(err);
@@ -50,12 +56,14 @@ const app = createApp({
       // }
 
       // console.log(product_id, this.cart.qty);
+      this.isLoading = true;
       const cart = { product_id, ...this.cart };
       axios
         .post(`${this.url}/api/${this.path}/cart`, { data: cart })
         .then((res) => {
           // console.log(res.data);
           alert(res.data.message);
+          this.isLoading = false;
           this.getCart();
         })
         .catch((err) => {
@@ -63,7 +71,6 @@ const app = createApp({
         });
     },
     getCart() {
-      //
       axios
         .get(`${this.url}/api/${this.path}/cart`)
         .then((res) => {
@@ -78,15 +85,19 @@ const app = createApp({
     },
     removeFromCart(product_id) {
       // console.log(product_id);
+      this.isLoading = true;
       if (product_id === "all") {
         axios
           .delete(`${this.url}/api/${this.path}/carts`)
           .then((res) => {
             alert(res.data.message);
+            this.isLoading = false;
             this.getCart();
           })
           .catch((err) => {
-            console.dir(err);
+            // console.dir(err);
+            alert(err.data.message);
+            this.isLoading = false;
           });
       } else {
         axios
@@ -94,6 +105,7 @@ const app = createApp({
           .then((res) => {
             // console.log(res.data);
             alert(res.data.message);
+            this.isLoading = false;
             this.getCart();
           })
           .catch((err) => {
@@ -125,4 +137,10 @@ const app = createApp({
 
     detailModal = new bootstrap.Modal(this.$refs.modal);
   },
-}).mount("#app");
+});
+
+// console.log(VueLoading);
+app.use(VueLoading.LoadingPlugin);
+app.component("loading", VueLoading.Component);
+
+app.mount("#app");

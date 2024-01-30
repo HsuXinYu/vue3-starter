@@ -12,6 +12,11 @@
       integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
       crossorigin="anonymous"
     />
+    <!-- vue-loading-overlay CSS-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/vue-loading-overlay@6/dist/css/index.css"
+      rel="stylesheet"
+    />
     <!-- Icon -->
     <link
       rel="stylesheet"
@@ -128,7 +133,7 @@
                       class="btn btn-outline-secondary"
                       @click.prevent="getProductDetail(product.id)"
                     >
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>
                       查看更多
                     </button>
                     <button
@@ -136,7 +141,7 @@
                       class="btn btn-outline-danger"
                       @click.prevent="addToCart(product.id)"
                     >
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>
                       加到購物車
                     </button>
                   </div>
@@ -172,7 +177,7 @@
                       class="btn btn-outline-danger btn-sm"
                       @click="removeFromCart(item.id)"
                     >
-                      <i class="fas fa-spinner fa-pulse"></i>
+                      <i class="fas fa-spinner fa-pulse" v-if="isLoading"></i>
                       x
                     </button>
                   </td>
@@ -318,6 +323,10 @@
       integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
       crossorigin="anonymous"
     ></script>
+    <!-- Vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2"></script>
+    <!-- vue-loading-overlay -->
+    <script src="https://cdn.jsdelivr.net/npm/vue-loading-overlay@6"></script>
     <!-- Vee Validate -->
     <!-- <script src="https://unpkg.com/vee-validate@next"></script>
     <script src="https://unpkg.com/@vee-validate/i18n@4.1.0"></script>
