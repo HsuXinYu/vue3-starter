@@ -12,6 +12,8 @@ const app = createApp({
       productDetail: {},
       cart: { qty: 1 },
       carts: [],
+      total: 0,
+      final_total: 0,
     };
   },
   methods: {
@@ -25,7 +27,6 @@ const app = createApp({
         })
         .catch((err) => {
           // console.dir(err);
-          alert(err.data.message);
         });
     },
     getProductDetail(product_id) {
@@ -39,7 +40,6 @@ const app = createApp({
         })
         .catch((err) => {
           // console.dir(err);
-          alert(err.data.message);
         });
     },
     addToCart(product_id) {
@@ -51,7 +51,6 @@ const app = createApp({
 
       // console.log(product_id, this.cart.qty);
       const cart = { product_id, ...this.cart };
-
       axios
         .post(`${this.url}/api/${this.path}/cart`, { data: cart })
         .then((res) => {
@@ -61,7 +60,6 @@ const app = createApp({
         })
         .catch((err) => {
           // console.dir(err);
-          alert(err.data.message);
         });
     },
     getCart() {
@@ -70,15 +68,57 @@ const app = createApp({
         .get(`${this.url}/api/${this.path}/cart`)
         .then((res) => {
           // console.log(res.data.data);
-          this.carts = res.data.data;
+          this.carts = res.data.data.carts;
+          this.total = res.data.data.total;
+          this.final_total = res.data.data.final_total;
         })
         .catch((err) => {
           // console.dir(err);
-          alert(err.data.message);
+        });
+    },
+    removeFromCart(product_id) {
+      // console.log(product_id);
+      if (product_id === "all") {
+        axios
+          .delete(`${this.url}/api/${this.path}/carts`)
+          .then((res) => {
+            alert(res.data.message);
+            this.getCart();
+          })
+          .catch((err) => {
+            console.dir(err);
+          });
+      } else {
+        axios
+          .delete(`${this.url}/api/${this.path}/cart/${product_id}`)
+          .then((res) => {
+            // console.log(res.data);
+            alert(res.data.message);
+            this.getCart();
+          })
+          .catch((err) => {
+            // console.dir(err);
+          });
+      }
+    },
+    updateCart(product_id, qty) {
+      // console.log(product_id, qty);
+      const cart = { product_id, qty };
+      axios
+        .put(`${this.url}/api/${this.path}/cart/${product_id}`, {
+          data: cart,
+        })
+        .then((res) => {
+          // console.log(res.data);
+          alert(res.data.message);
+          this.getCart();
+        })
+        .catch((err) => {
+          // console.dir(err);
         });
     },
   },
-  watch: {},
+
   mounted() {
     this.getProduct();
     this.getCart();
