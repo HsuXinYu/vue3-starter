@@ -30,7 +30,7 @@
             <card2></card2>
 
             <h3>實用技巧（取代標題、多個）</h3>
-            <!--  <new-title></new-title>-->
+            <!-- <new-title></new-title> -->
           </div>
 
           <script>
@@ -44,29 +44,30 @@
                   toggle: false,
                 };
               },
-              template: `
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">{{ title }}</h5>
-          <p class="card-text">{{ content }}</p>
-          <button type="button" @click="toggle = !toggle">切換元素顯示</button>
-        </div>
-      </div>
-
-      <div v-if="toggle" class="alert alert-danger">被招喚的元素</div>
-    `,
+              template: `<div class="card" style="width: 18rem;">
+                  <div class="card-body">
+                  <h5 class="card-title">{{ title }}</h5>
+                  <p class="card-text">{{ content }}</p>
+                  <button type="button" @click="toggle = !toggle">切換元素顯示</button>
+                  </div>
+                </div>
+                <teleport to="#target">
+              <div v-if="toggle" class="alert alert-danger">被招喚的元素</div>
+              </teleport>`,
               props: ["item"],
             });
 
             app.component("card2", {
               template: `
-      <div class="alert alert-danger">被招喚的元素</div>
-    `,
+              <teleport to="#aside">
+              <div class="alert alert-danger">被招喚的元素</div>
+              </teleport>`,
             });
 
             app.component("new-title", {
-              template: `<teleport to="title"> - 新增的標題片段</teleport>
-    <teleport to="h1"> - 新增的文字片段</teleport>`,
+              template: `
+              <teleport to="title"> - 新增的標題片段</teleport>
+              <teleport to="h1"> - 新增的文字片段</teleport>`,
             });
 
             app.mount("#app");
@@ -75,7 +76,7 @@
           <!-- 🙇🙇練習結束🙇🙇 -->
         </main>
 
-        <aside class="col-md-3">
+        <aside id="aside" class="col-md-3">
           <div class="sticky-top" style="top: 76px">
             <div class="list-group">
               <a
@@ -121,7 +122,7 @@
               </a>
 
               <a
-                href="/advApi/adv-directive.html"
+                href="/advApi/adv-custom-directive.html"
                 class="list-group-item list-group-item-action"
               >
                 自訂義指令

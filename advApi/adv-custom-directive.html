@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>製作包含 v-model 的元件</title>
+    <title>自訂義指令</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="images/favicon.ico" rel="shortcut icon" />
     <meta charset="UTF-8" />
@@ -14,63 +14,102 @@
         <main class="col post">
           <!-- 章節標題 -->
           <div class="mb-4">
-            <h1 class="mt-0 text-muted">製作包含 v-model 的元件</h1>
-            <small>檔名：<code>adv-component-v-model.html</code></small>
+            <h1 class="mt-0 text-muted">自訂義指令</h1>
+            <small>檔名：<code>adv-custom-directive.html</code></small>
           </div>
           <!-- 🔥🔥練習開始🔥🔥 -->
 
           <div id="app">
-            <h2>將元件內的值傳回 v-model（update:modelValue）</h2>
-            <p>
-              參考說明：<a
-                href="https://vue3js.cn/docs/zh/guide/component-custom-events.html#v-model-%E5%8F%82%E6%95%B0"
-                >https://vue3js.cn/docs/zh/guide/component-custom-events.html#v-model-%E5%8F%82%E6%95%B0</a
-              >
-            </p>
-            {{ name }}
-            <custom-input v-model:text="name"></custom-input>
+            <h2>自訂義指令</h2>
+            <h3>用途</h3>
+            <ul>
+              <li>實戰中屬於進階功能，初學可先了解有此功能即可</li>
+              <li>可從延伸套件中看到相關的運用</li>
+              <li>多用於 HTML 上的便利操作，複雜功能還是會搭配元件</li>
+            </ul>
 
-            <hr />
-            <h2>多個 v-model</h2>
-            {{ text }} | {{ text2 }}
-            <custom-input2 v-model:t1="text" v-model:t2="text2"></custom-input2>
+            <h3>結構</h3>
+            <ul>
+              <li>v-{自訂義名稱}</li>
+              <li>
+                主要透過生命週期來觸發變動，可參考：<a
+                  href="https://vue3js.cn/docs/zh/guide/custom-directive.html#%E5%8A%A8%E6%80%81%E6%8C%87%E4%BB%A4%E5%8F%82%E6%95%B0"
+                  >https://vue3js.cn/docs/zh/guide/custom-directive.html#%E5%8A%A8%E6%80%81%E6%8C%87%E4%BB%A4%E5%8F%82%E6%95%B0</a
+                >
+              </li>
+            </ul>
+            <input type="email" v-model="text" v-validator="'form-control'" />
           </div>
-
-          <script>
+          <script type="module">
             const app = Vue.createApp({
               data() {
                 return {
-                  name: "小明",
-                  text: "這是文字片段 1",
-                  text2: "這是文字片段 2",
+                  text: "",
                 };
               },
             });
 
-            // $emit('update:text', $event.target.value) 搭配 props，可以將子元件更新後的值寫回 v-model 內
-            app.component("custom-input", {
-              props: ["text"],
-              template: `
-              <input type="text"
-              class="form-control" :value="text"
-              @input="$emit('update:text', $event.target.value)" >`,
-            });
+            // 註冊指令
+            app.directive("validator", {
+              // directive 生命週期
+              mounted(el, binding) {
+                el.focus();
 
-            app.component("custom-input2", {
-              props: ["t1", "t2"],
-              template: `
-              <input type="text"
-                class="form-control"
-              :value="t1"
-              @input=$emit("update:t1",$event.target.value) >
+                // 將外部的值改為
+                // console.log(binding);
+                el.className = binding.value;
+              },
+              updated: function (el, binding, vnode) {
+                // el 元素本體
+                // binding 綁定的資源狀態
+                // vnode 虛擬 DOM 節點
+                // console.log("update", el, binding, vnode);
 
-              <input type="text"
-                class="form-control"
-                :value="t2" 
-              @input=$emit("update:t2",$event.target.value) >`,
+                const className = binding.value;
+
+                // 尋找當前的 model 名稱（取得 key 值，並帶入第一個）
+                const currentModel = Object.keys(binding.instance)[0];
+                // console.log(currentModel);
+
+                // 從當前 Model 取值
+                const value = binding.instance[currentModel];
+                console.log(currentModel, value);
+
+                // Email validate
+                const reg =
+                  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+                if (!reg.test(value)) {
+                  el.className = `${className} is-invalid`;
+                } else {
+                  el.className = `${className} is-valid`;
+                }
+              },
             });
 
             app.mount("#app");
+          </script>
+
+          <script>
+            // ESM 版本的差異（需要 Webpack）
+            // import { Field, Form, ErrorMessage } from 'vee-validate';
+            //
+            // export default {
+            //   components: {
+            //     Field,
+            //     Form,
+            //     ErrorMessage,
+            //   },
+            //   methods: {
+            //     isRequired(value) {
+            //       if (value && value.trim()) {
+            //         return true;
+            //       }
+            //
+            //       return 'This is required';
+            //     },
+            //   },
+            // };
           </script>
 
           <!-- 🙇🙇練習結束🙇🙇 -->
@@ -102,7 +141,7 @@
 
               <a
                 href="/advApi/adv-component-v-model.html"
-                class="list-group-item list-group-item-action active"
+                class="list-group-item list-group-item-action"
               >
                 製作包含 v-model 的元件
               </a>
@@ -123,7 +162,7 @@
 
               <a
                 href="/advApi/adv-custom-directive.html"
-                class="list-group-item list-group-item-action"
+                class="list-group-item list-group-item-action active"
               >
                 自訂義指令
               </a>
