@@ -44,12 +44,19 @@
             </ul>
 
             <h3>範例：載入 VeeValidate 驗證套件</h3>
-            <form @submit="onSubmit">
-              <input name="name" type="text" placeholder="Who are you" />
-              <span>請填寫此欄位</span>
+            <!-- v-slot 將子元件內資源提供給外部使用 -->
+            <v-form @submit="onSubmit" v-slot="{errors}">
+              {{ errors }}
+              <v-field
+                name="欄位名稱"
+                type="text"
+                placeholder="Who are you"
+                :rules="isRequired"
+              ></v-field>
+              <error-message name="欄位名稱">請填寫此欄位</error-message>
 
               <button>Submit</button>
-            </form>
+            </v-form>
 
             <p>比對與 ESM 版本上的差異</p>
           </div>
@@ -60,13 +67,19 @@
             const app = Vue.createApp({
               components: {
                 // Components were renamed to avoid conflicts of HTML form element without a vue compiler
-                // VForm: VeeValidate.Form,
-                // VField: VeeValidate.Field,
-                // ErrorMessage: VeeValidate.ErrorMessage,
+                VForm: VeeValidate.Form,
+                VField: VeeValidate.Field,
+                ErrorMessage: VeeValidate.ErrorMessage,
               },
               methods: {
-                onSubmit() {
-                  console.log();
+                onSubmit(value) {
+                  console.log(value);
+                },
+                isRequired(value) {
+                  if (!value) {
+                    return "此欄是必填的";
+                  }
+                  return true;
                 },
               },
             });

@@ -28,96 +28,150 @@
             </p>
 
             <h3>範例：載入 VeeValidate 驗證套件</h3>
-            <form @submit="onSubmit">
+            <v-form @submit="onSubmit" v-slot="{ errors }">
+              {{ errors }}
               <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input
+                <v-field
                   id="email"
                   name="email"
                   type="email"
                   class="form-control"
-                  placeholder="請輸入 Email"
-                />
-                <span class="invalid-feedback"></span>
+                  placeholder="請輸入信箱"
+                  rules="email|required"
+                  :class="{ 'is-invalid': errors['email'] }"
+                  v-model="user.email"
+                ></v-field>
+                <error-message
+                  class="invalid-feedback"
+                  name="email"
+                ></error-message>
               </div>
 
               <div class="mb-3">
                 <label for="name" class="form-label">姓名</label>
-                <input
+                <v-field
                   id="name"
                   name="姓名"
                   type="text"
                   class="form-control"
                   placeholder="請輸入姓名"
-                />
-                <span class="invalid-feedback"></span>
+                  rules="required"
+                  :class="{ 'is-invalid': errors['姓名'] }"
+                  v-model="user.name"
+                >
+                </v-field>
+                <error-message
+                  class="invalid-feedback"
+                  name="姓名"
+                ></error-message>
               </div>
 
               <div class="mb-3">
                 <label for="phone" class="form-label">電話</label>
-                <input
+                <v-field
                   id="phone"
                   name="電話"
                   type="text"
                   class="form-control"
                   placeholder="請輸入電話"
-                />
-                <span class="invalid-feedback"></span>
+                  :rules="isPhone"
+                  :class="{ 'is-invalid': errors['電話'] }"
+                  v-model="user.phone"
+                ></v-field>
+                <error-message
+                  class="invalid-feedback"
+                  name="電話"
+                ></error-message>
               </div>
 
               <div class="mb-3">
                 <label for="region" class="form-label">地區</label>
-                <select id="region" name="地區" class="form-control">
+                <v-field
+                  id="region"
+                  name="地區"
+                  class="form-control"
+                  rules="required"
+                  :class="{ 'is-invalid': errors['地區'] }"
+                  v-model="user.region"
+                  as="select"
+                >
                   <option value="">請選擇地區</option>
                   <option value="台北市">台北市</option>
                   <option value="高雄市">高雄市</option>
-                </select>
-                <span class="invalid-feedback"></span>
+                </v-field>
+                <error-message
+                  class="invalid-feedback"
+                  name="地區"
+                ></error-message>
               </div>
 
               <div class="mb-3">
                 <label for="address" class="form-label">地址</label>
-                <input
+                <v-field
                   id="address"
                   name="地址"
                   type="text"
                   class="form-control"
                   placeholder="請輸入地址"
-                />
-                <span class="invalid-feedback"></span>
+                  rules="required"
+                  :class="{ 'is-invalid': errors['地址'] }"
+                  v-model="user.address"
+                ></v-field>
+                <error-message
+                  class="invalid-feedback"
+                  name="地址"
+                ></error-message>
               </div>
 
               <button class="btn btn-primary" type="submit">Submit</button>
-            </form>
+            </v-form>
           </div>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.1.17/vee-validate.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.1.17/dist/vee-validate-i18n.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.1.17/dist/vee-validate-rules.min.js"></script>
           <script type="module">
+            // 讀取外部的資源
+            VeeValidateI18n.loadLocaleFromURL("./zh_TW.json");
+
+            // Activate the locale
+            VeeValidate.configure({
+              generateMessage: VeeValidateI18n.localize("zh_TW"),
+              validateOnInput: true, // 調整為：輸入文字時，就立即進行驗證
+            });
+
+            VeeValidate.defineRule("email", VeeValidateRules["email"]);
+            VeeValidate.defineRule("required", VeeValidateRules["required"]);
+
             const app = Vue.createApp({
               data() {
                 return {
                   user: {
                     email: "",
                     name: "",
-                    address: "",
                     phone: "",
+                    region: "",
+                    address: "",
                   },
                 };
               },
               methods: {
-                onSubmit() {
-                  console.log(this.user);
-                },
                 isPhone(value) {
                   const phoneNumber = /^(09)[0-9]{8}$/;
                   return phoneNumber.test(value) ? true : "需要正確的電話號碼";
                 },
+                onSubmit() {
+                  console.log(this.user);
+                },
               },
               created() {
-                console.log(this);
+                // console.log(this);
               },
             });
+
+            app.component("VForm", VeeValidate.Form);
+            app.component("VField", VeeValidate.Field);
+            app.component("ErrorMessage", VeeValidate.ErrorMessage);
 
             app.mount("#app");
           </script>
