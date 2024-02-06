@@ -3,11 +3,11 @@ let detailModal = "";
 // console.log(VueLoading);
 // console.log(VeeValidate);
 
-// // 載入VeeValidate 規則
+// 載入VeeValidate 規則
 VeeValidate.defineRule("required", VeeValidateRules["required"]);
 VeeValidate.defineRule("email", VeeValidateRules["email"]);
 
-// // 載入多國語系
+// 載入多國語系
 VeeValidateI18n.loadLocaleFromURL("./zh_TW.json");
 VeeValidate.configure({
   generateMessage: VeeValidateI18n.localize("zh_TW"),
@@ -139,12 +139,15 @@ const app = Vue.createApp({
           });
       }
     },
-    updateCart(product_id, qty) {
-      // console.log(product_id, qty);
+    updateCart(item) {
+      // console.log(item);
       this.isLoading = true;
-      const cart = { product_id, qty };
+      const cart = {
+        product_id: item.product.id,
+        qty: item.qty,
+      };
       axios
-        .put(`${this.url}/api/${this.path}/cart/${product_id}`, {
+        .put(`${this.url}/api/${this.path}/cart/${item.id}`, {
           data: cart,
         })
         .then((res) => {
@@ -160,7 +163,8 @@ const app = Vue.createApp({
         });
     },
     isTel(value) {
-      const phoneNumber = /^(09)[0-9]{8}$/;
+      const phoneNumber =
+        /(\d{2,3}-?|\(\d{2,3}\))\d{3,4}-?\d{4}|09\d{2}(\d{6}|-\d{3}-\d{3})/;
       return phoneNumber.test(value) ? true : "需要正確的電話號碼";
     },
     onSubmit() {
@@ -178,7 +182,7 @@ const app = Vue.createApp({
       if (this.carts.length === 0) {
         alert("購物車內無商品!");
       } else {
-        // this.isLoading = true;
+        this.isLoading = true;
         // console.log(this.user, this.message);
         const order = { user: this.user, message: this.message };
         // console.log(order);

@@ -75,7 +75,7 @@
                         type="number"
                         class="form-control"
                         min="1"
-                        v-model="cart.qty"
+                        v-model.number="cart.qty"
                       />
                       <button
                         type="button"
@@ -184,7 +184,7 @@
                             class="form-control"
                             min="1"
                             v-model="item.qty"
-                            @change="updateCart(item.id,item.qty)"
+                            @blur="updateCart(item)"
                           />
                           <span class="input-group-text" id="basic-addon2"
                             >{{ item.product.unit }}</span
@@ -273,7 +273,7 @@
               <v-field
                 id="tel"
                 name="電話"
-                type="text"
+                type="tel"
                 class="form-control"
                 placeholder="請輸入電話"
                 :rules="isTel"
