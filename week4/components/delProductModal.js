@@ -1,26 +1,4 @@
 export default {
-  props: ["url", "path", "tempProduct"],
-  data() {
-    return {};
-  },
-  methods: {
-    deleteProduct() {
-      const productId = this.tempProduct.id;
-      // console.log(productId);
-      axios
-        .delete(`${this.url}/api/${this.path}/admin/product/${productId}`)
-        .then((res) => {
-          // console.log(res.data);
-          alert(res.data.message);
-          this.$emit("get-product");
-          this.$emit("hide-modal");
-        })
-        .catch((err) => {
-          // console.dir(err);
-          alert(err.data.message);
-        });
-    },
-  },
   template: ` <div
   id="delProductModal"
   ref="delProductModal"
@@ -44,7 +22,7 @@ export default {
       </div>
       <div class="modal-body">
         是否刪除
-        <strong class="text-danger">{{tempProduct.title}}</strong>
+        <strong class="text-danger">{{ tempProduct.title }}</strong>
         商品(刪除後將無法恢復)。
       </div>
       <div class="modal-footer">
@@ -55,16 +33,33 @@ export default {
         >
           取消
         </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          @click="deleteProduct"
-        >
+        <button type="button" class="btn btn-danger" @click="deleteProduct">
           確認刪除
         </button>
       </div>
     </div>
   </div>
-</div>
-  `,
+</div>`,
+  props: ["url", "path", "tempProduct"],
+  data() {
+    return {};
+  },
+  methods: {
+    deleteProduct() {
+      const productId = this.tempProduct.id;
+      // console.log(productId);
+      axios
+        .delete(`${this.url}/api/${this.path}/admin/product/${productId}`)
+        .then((res) => {
+          // console.log(res.data);
+          alert(res.data.message);
+          this.$emit("get-product");
+          this.$emit("hide-modal");
+        })
+        .catch((err) => {
+          // console.dir(err);
+          alert(err.data.message);
+        });
+    },
+  },
 };

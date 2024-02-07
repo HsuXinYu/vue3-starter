@@ -1,82 +1,4 @@
 export default {
-  //父元件傳遞參數
-  props: ["url", "path", "event", "tempProduct"],
-  data() {
-    return {};
-  },
-  methods: {
-    processEvent() {
-      if (this.event === "post") {
-        this.postProduct();
-      } else if (this.event === "edit") {
-        this.editProduct();
-      }
-    },
-    postProduct() {
-      let product = this.tempProduct;
-      axios
-        .post(`${this.url}/api/${this.path}/admin/product`, { data: product })
-        .then((res) => {
-          // console.log(res.data);
-          alert(res.data.message);
-          //觸發父元件方法
-          this.$emit("get-product");
-          this.$emit("hide-modal");
-        })
-        .catch((err) => {
-          // console.dir(err);
-          alert(err.data.message);
-        });
-    },
-    uploadImage(e) {
-      // console.log(e.target.files[0]);
-      const file = e.target.files[0];
-      const formData = new FormData();
-
-      formData.append("file-to-upload", file);
-      axios
-        .post(`${this.url}/api/${this.path}/admin/upload`, formData)
-        .then((res) => {
-          // console.log(res);
-          this.tempProduct.imageUrl = res.data.imageUrl;
-          e.target.value = "";
-        })
-        .catch((err) => {
-          console.dir(err.message);
-          alert(err.message);
-        });
-    },
-    addImage() {
-      if (this.tempProduct.imageUrl) {
-        // console.log(this.tempProduct.imageUrl, this.tempProduct.imagesUrl);
-        this.tempProduct.imagesUrl.push(this.tempProduct.imageUrl);
-      }
-    },
-    removeImage() {
-      if (this.tempProduct.imagesUrl != 0) {
-        this.tempProduct.imagesUrl.pop();
-      }
-    },
-    editProduct() {
-      const productId = this.tempProduct.id;
-      let product = { ...this.tempProduct };
-
-      axios
-        .put(`${this.url}/api/${this.path}/admin/product/${productId}`, {
-          data: product,
-        })
-        .then((res) => {
-          // console.log(res.data);
-          alert(res.data.message);
-          this.$emit("getProduct");
-          this.$emit("hideModal");
-        })
-        .catch((err) => {
-          // console.dir(err);
-          alert(err.data.message);
-        });
-    },
-  },
   template: `<div
   id="productModal"
   ref="productModal"
@@ -263,4 +185,82 @@ export default {
     </div>
   </div>
 </div>`,
+  //父元件傳遞參數
+  props: ["url", "path", "event", "tempProduct"],
+  data() {
+    return {};
+  },
+  methods: {
+    processEvent() {
+      if (this.event === "post") {
+        this.postProduct();
+      } else if (this.event === "edit") {
+        this.editProduct();
+      }
+    },
+    postProduct() {
+      let product = this.tempProduct;
+      axios
+        .post(`${this.url}/api/${this.path}/admin/product`, { data: product })
+        .then((res) => {
+          // console.log(res.data);
+          alert(res.data.message);
+          //觸發父元件方法
+          this.$emit("get-product");
+          this.$emit("hide-modal");
+        })
+        .catch((err) => {
+          // console.dir(err);
+          alert(err.data.message);
+        });
+    },
+    uploadImage(e) {
+      // console.log(e.target.files[0]);
+      const file = e.target.files[0];
+      const formData = new FormData();
+
+      formData.append("file-to-upload", file);
+      axios
+        .post(`${this.url}/api/${this.path}/admin/upload`, formData)
+        .then((res) => {
+          // console.log(res);
+          this.tempProduct.imageUrl = res.data.imageUrl;
+          e.target.value = "";
+        })
+        .catch((err) => {
+          console.dir(err.message);
+          alert(err.message);
+        });
+    },
+    addImage() {
+      if (this.tempProduct.imageUrl) {
+        // console.log(this.tempProduct.imageUrl, this.tempProduct.imagesUrl);
+        this.tempProduct.imagesUrl.push(this.tempProduct.imageUrl);
+      }
+    },
+    removeImage() {
+      if (this.tempProduct.imagesUrl != 0) {
+        this.tempProduct.imagesUrl.pop();
+      }
+    },
+    editProduct() {
+      const productId = this.tempProduct.id;
+      let product = { ...this.tempProduct };
+
+      axios
+        .put(`${this.url}/api/${this.path}/admin/product/${productId}`, {
+          data: product,
+        })
+        .then((res) => {
+          // console.log(res.data);
+          alert(res.data.message);
+          this.$emit("getProduct");
+          this.$emit("hideModal");
+        })
+        .catch((err) => {
+          // console.dir(err);
+          alert(err.data.message);
+        });
+    },
+  },
 };
