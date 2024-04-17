@@ -3,11 +3,11 @@ let detailModal = "";
 // console.log(VueLoading);
 // console.log(VeeValidate);
 
-// // 載入VeeValidate 規則
+// 載入VeeValidate 規則
 VeeValidate.defineRule("required", VeeValidateRules["required"]);
 VeeValidate.defineRule("email", VeeValidateRules["email"]);
 
-// // 載入多國語系
+// 載入多國語系
 VeeValidateI18n.loadLocaleFromURL("./zh_TW.json");
 VeeValidate.configure({
   generateMessage: VeeValidateI18n.localize("zh_TW"),

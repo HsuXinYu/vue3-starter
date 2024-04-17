@@ -105,7 +105,7 @@ createApp({
           this.products = res.data.products;
         })
         .catch((err) => {
-          console.dir(err);
+          // console.dir(err);
           alert(err.data.message);
         });
     },
